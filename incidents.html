@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Incident Report | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Global style sheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Dashboard Shell CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <!-- Form input designs -->
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+  <!-- Safety Guard script check -->
+  <script>
+    // Auto-login default mock tourist user if no active session exists (for easy local prototype preview)
+    if (!localStorage.getItem('sih_active_user_email')) {
+      localStorage.setItem('sih_active_user_email', 'tourist@example.com');
+    }
+  </script>
+
+  <div class="dashboard-wrapper">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <i class="fa-solid fa-shield-halved"></i> FearLess <span>360</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item"><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li class="sidebar-item"><a href="profile.html"><i class="fa-regular fa-user"></i> My Profile</a></li>
+        <li class="sidebar-item"><a href="map.html"><i class="fa-solid fa-map-location-dot"></i> Live GPS Map</a></li>
+        <li class="sidebar-item"><a href="geofence.html"><i class="fa-solid fa-circle-nodes"></i> GeoFence Alert</a></li>
+        <li class="sidebar-item"><a href="sos.html" style="color:#ff4a70;"><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS</a></li>
+        <li class="sidebar-item active"><a href="incidents.html"><i class="fa-solid fa-file-invoice"></i> File Incident</a></li>
+        <li class="sidebar-item"><a href="chatbot.html"><i class="fa-solid fa-comments"></i> AI Assistant</a></li>
+        <li class="sidebar-item"><a href="qr.html"><i class="fa-solid fa-qrcode"></i> Digital Passport</a></li>
+        <li class="sidebar-item"><a href="tourist.html"><i class="fa-solid fa-book-open"></i> Safety Tip Book</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-logout" onclick="event.preventDefault(); localStorage.removeItem('sih_active_user_email'); window.location.href='login.html';">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="dashboard-header">
+        <div class="header-title">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+          <h1>Report Incident</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="notification-bell" onclick="Swal.fire('Notifications', 'System is active and tracking your coordinates. No alerts.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge"></span>
+          </div>
+          
+          <a href="profile.html" class="user-profile-menu">
+            <div class="user-avatar-small">U</div>
+            <div class="user-info-text">
+              <span class="user-name-small">Tourist User</span>
+              <span class="user-role-small">Verified Safety Pass</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <div class="dashboard-content">
+        
+        <div class="content-card" data-aos="fade-up" style="max-width: 700px; margin: 0 auto;">
+          <div class="content-card-title">File Safety Incident Report</div>
+          <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:25px;">Enter details of the safety concern, accident, or threat. Reports are synced with local monument authorities and patrol cabins.</p>
+
+          <form id="incident-form" novalidate>
+            <!-- Incident Type -->
+            <div class="form-group">
+              <label class="form-label" for="inc-type">Incident Category</label>
+              <div class="input-wrapper">
+                <select id="inc-type" class="form-control" style="padding-left:16px;">
+                  <option value="Theft">Pickpocketing & Theft</option>
+                  <option value="Harassment">Eve-Teasing & Harassment</option>
+                  <option value="Medical">Medical Hazard / Injury</option>
+                  <option value="Accident">Road Accident / Collision</option>
+                  <option value="Natural Disaster">Weather alert / Flooding</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Incident Location -->
+            <div class="form-group">
+              <label class="form-label" for="inc-loc">Location Occurred</label>
+              <div class="input-wrapper">
+                <input type="text" id="inc-loc" class="form-control" placeholder="Gateway of India monument perimeter" required style="padding-left:16px;">
+              </div>
+            </div>
+
+            <!-- Description details -->
+            <div class="form-group">
+              <label class="form-label" for="inc-desc">Incident Description Details</label>
+              <div class="input-wrapper">
+                <textarea id="inc-desc" class="form-control" placeholder="Provide details regarding the individuals, sequence of events, and active hazards..." required style="padding-left:16px; min-height: 120px;"></textarea>
+              </div>
+            </div>
+
+            <!-- Media Attachments -->
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Attach Incident Image</label>
+                <div class="file-upload-wrapper" onclick="document.getElementById('inc-img').click()">
+                  <input type="file" id="inc-img" accept="image/*" style="display:none;">
+                  <div class="file-upload-content">
+                    <i class="fa-solid fa-camera"></i>
+                    <p>Click to <span>Upload Image</span></p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Attach Incident Video</label>
+                <div class="file-upload-wrapper" onclick="document.getElementById('inc-vid').click()">
+                  <input type="file" id="inc-vid" accept="video/*" style="display:none;">
+                  <div class="file-upload-content">
+                    <i class="fa-solid fa-video"></i>
+                    <p>Click to <span>Upload Video</span></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top:20px;">Submit Incident Report</button>
+          </form>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+
+    // File Incident Submit Logic (Self Contained)
+    document.addEventListener('DOMContentLoaded', () => {
+      const incForm = document.getElementById('incident-form');
+      if (incForm) {
+        incForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const type = document.getElementById('inc-type').value;
+          const location = document.getElementById('inc-loc').value.trim();
+          const description = document.getElementById('inc-desc').value.trim();
+
+          if (!location || !description) {
+            Swal.fire('Error', 'Please fill in location and incident description details.', 'error');
+            return;
+          }
+
+          // Fetch active user name
+          const activeEmail = localStorage.getItem('sih_active_user_email');
+          const users = JSON.parse(localStorage.getItem('sih_users') || '[]');
+          const user = users.find(u => u.email === activeEmail) || { name: "Guest Tourist" };
+
+          // Create new incident logs
+          const incidents = JSON.parse(localStorage.getItem('sih_incidents') || '[]');
+          const newIncident = {
+            id: `INC-${Math.floor(1000 + Math.random() * 9000)}`,
+            type: type,
+            touristName: user.name,
+            location: location,
+            description: description,
+            status: "under review",
+            date: new Date().toISOString()
+          };
+
+          incidents.unshift(newIncident);
+          localStorage.setItem('sih_incidents', JSON.stringify(incidents));
+
+          // Sync to Supabase table in parallel
+          if (typeof supabaseClient !== 'undefined' && supabaseClient !== null) {
+            supabaseClient.from('incidents').insert([{
+              id: newIncident.id,
+              type: newIncident.type,
+              tourist_name: newIncident.touristName,
+              location: newIncident.location,
+              description: newIncident.description,
+              status: newIncident.status,
+              date: newIncident.date
+            }]).then(() => {
+              console.log("Incident reported online in Supabase.");
+            }).catch(err => {
+              console.error("Supabase incident log failed:", err);
+            });
+          }
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Incident Report Filed',
+            html: `<p><b>Report ID:</b> ${newIncident.id}</p><p>Moderators and nearby safety teams have been notified. Standby.</p>`,
+            confirmButtonColor: '#0D6EFD'
+          }).then(() => {
+            incForm.reset();
+            window.location.href = 'dashboard.html';
+          });
+        });
+      }
+    });
+  </script>
+  <!-- Global application JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

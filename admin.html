@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Global style sheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Dashboard Shell CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <!-- Admin Specific CSS overrides -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Safety Auth Guard check for Administrators -->
+  <script>
+    // Auto-login default mock admin user if no active session exists (for easy local prototype preview)
+    if (!localStorage.getItem('sih_active_admin_email')) {
+      localStorage.setItem('sih_active_admin_email', 'admin@sih.gov.in');
+    }
+  </script>
+
+  <div class="dashboard-wrapper">
+    <!-- Left Admin Sidebar -->
+    <aside class="sidebar" id="sidebar" style="background:#090d1f;">
+      <div class="sidebar-header" style="border-bottom-color: rgba(255,255,255,0.03);">
+        <a href="index.html" class="sidebar-brand">
+          <i class="fa-solid fa-shield-halved" style="color:#FF6B35;"></i> FearLess <span>Admin</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item active"><a href="admin.html"><i class="fa-solid fa-gauge-high"></i> Control Center</a></li>
+        <li class="sidebar-item"><a href="#" onclick="event.preventDefault(); Swal.fire('Live Tracking Feed', 'Under SIH review: Simulated GPS nodes active.', 'info');"><i class="fa-solid fa-satellite-dish"></i> Live Track Feed</a></li>
+        <li class="sidebar-item"><a href="#" onclick="event.preventDefault(); Swal.fire('Configuration Settings', 'Emergency contact parameters locked to ministry desk.', 'info');"><i class="fa-solid fa-sliders"></i> Alert Settings</a></li>
+      </ul>
+
+      <div class="sidebar-footer" style="border-top-color: rgba(255,255,255,0.03);">
+        <a href="#" class="sidebar-logout" onclick="event.preventDefault(); localStorage.removeItem('sih_active_admin_email'); window.location.href='login.html';">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out Admin
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="dashboard-header">
+        <div class="header-title">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+          <h1>SIH Incident Moderation Panel</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="notification-bell" onclick="Swal.fire('System Diagnostics', 'Database connection: Active\nFirebase ready: Yes\nSIH demo node: Running.', 'success')">
+            <i class="fa-solid fa-gear"></i>
+          </div>
+          
+          <a href="#" class="user-profile-menu" onclick="event.preventDefault()">
+            <div class="user-avatar-small" style="background:#FF6B35;">A</div>
+            <div class="user-info-text">
+              <span class="user-name-small">SIH Moderator</span>
+              <span class="user-role-small">Administrator</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <div class="dashboard-content">
+        
+        <!-- Metrics Row -->
+        <div class="admin-metrics-grid">
+          <div class="widget-card">
+            <div class="widget-icon blue"><i class="fa-solid fa-users"></i></div>
+            <div class="widget-details">
+              <span class="widget-title">Registered Users</span>
+              <span class="widget-value" id="stat-admin-users">0</span>
+            </div>
+          </div>
+
+          <div class="widget-card">
+            <div class="widget-icon red" style="background:rgba(220,53,69,0.1); color:#dc3545;"><i class="fa-solid fa-circle-exclamation"></i></div>
+            <div class="widget-details">
+              <span class="widget-title">Active SOS Sirens</span>
+              <span class="widget-value" id="stat-admin-sos">0</span>
+            </div>
+          </div>
+
+          <div class="widget-card">
+            <div class="widget-icon orange"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="widget-details">
+              <span class="widget-title">Under Review Reports</span>
+              <span class="widget-value" id="stat-admin-incidents">0</span>
+            </div>
+          </div>
+
+          <div class="widget-card">
+            <div class="widget-icon green"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="widget-details">
+              <span class="widget-title">Resolved Hazards</span>
+              <span class="widget-value" id="stat-admin-resolved">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charts Grid Row (Chart.js Targets) -->
+        <div class="chart-grid" data-aos="fade-up">
+          <div class="content-card">
+            <div class="content-card-title">SOS Dispatch Alert Triggers Trends</div>
+            <div class="chart-container">
+              <canvas id="chart-sos-alerts"></canvas>
+            </div>
+          </div>
+
+          <div class="content-card">
+            <div class="content-card-title">Reported Incident Categories Distribution</div>
+            <div class="chart-container">
+              <canvas id="chart-incident-types"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reported Incidents Moderation Table -->
+        <div class="content-card" data-aos="fade-up">
+          <div class="content-card-title">Moderate Active Safety Logs</div>
+          
+          <div class="incidents-table-wrapper">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Report ID</th>
+                  <th>Category</th>
+                  <th>Tourist Reporter</th>
+                  <th>Location Plot</th>
+                  <th>Report Time</th>
+                  <th>Security Status</th>
+                  <th>Moderator Actions</th>
+                </tr>
+              </thead>
+              <tbody id="incidents-table-body">
+                <!-- Javascript will load records here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Heat Map Simulator Panel -->
+        <div class="content-card" data-aos="fade-up">
+          <div class="content-card-title">Safety Incident Density Heat Map</div>
+          <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:20px;">Geographical density mapping based on simulated coordinate reports logs from tourists.</p>
+          
+          <div class="heatmap-box">
+            <!-- Simulated glowing heat nodes -->
+            <div class="heatmap-pulse heatmap-pulse-red"></div>
+            <div class="heatmap-pulse heatmap-pulse-orange"></div>
+            
+            <!-- Map grid background visual representation -->
+            <div style="position:absolute; bottom:20px; right:20px; background:#fff; padding:10px 18px; border-radius:6px; font-size:0.8rem; box-shadow:var(--shadow-sm); z-index:10;">
+              🚨 Red: High SOS flags (Colaba Area)<br>
+              ⚠️ Orange: General Hazards (Gateway Monument)
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <!-- Chart.js library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    AOS.init({ once: true });
+  </script>
+  <!-- Global application JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <!-- Admin scripts module -->
+  <script src="js/admin.js"></script>
+</body>
+</html>
+

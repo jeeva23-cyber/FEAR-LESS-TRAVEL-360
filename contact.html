@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+  <!-- Global & Landing Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      margin: 50px 0 100px;
+    }
+    .contact-card {
+      padding: 40px;
+    }
+    .contact-info-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-top: 30px;
+    }
+    .contact-info-item {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+    }
+    .contact-icon-box {
+      width: 45px;
+      height: 45px;
+      background: rgba(13, 110, 253, 0.1);
+      color: var(--primary);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .contact-info-item h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0c1e36;
+    }
+    .contact-info-item p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    @media (max-width: 992px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved"></i> FearLess <span>Travel 360</span>
+      </a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="index.html#services" class="nav-link">Services</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="contact.html" class="nav-link active">Contact</a></li>
+        
+        <li class="nav-auth-mobile">
+          <a href="login.html" class="btn btn-outline">Login</a>
+          <a href="register.html" class="btn btn-primary">Register</a>
+        </li>
+      </ul>
+
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="register.html" class="btn btn-primary">Register</a>
+      </div>
+
+      <button class="hamburger" id="hamburger-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="hero-section" style="padding: 140px 0 50px; min-height: auto;">
+    <div class="container">
+      <div class="section-header" style="margin-bottom:0;" data-aos="fade-up">
+        <h1 style="font-size: 2.8rem;">Contact <span>Safety Hub</span></h1>
+        <p>Get in touch with national tourist safety authorities and support coordinators.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Body Grid -->
+  <main class="container">
+    <div class="contact-grid">
+      <!-- Contact Form -->
+      <div class="contact-card glass-card" data-aos="fade-right">
+        <h2 style="font-size: 1.5rem; font-weight:700; margin-bottom: 20px; color:#0c1e36;">Send Inquiries</h2>
+        
+        <form id="contact-form" onsubmit="event.preventDefault(); Swal.fire('Inquiry Received', 'Your message has been filed. A coordinator will respond shortly.', 'success'); this.reset();">
+          <div class="form-row" style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <div style="margin-bottom: 20px;">
+              <label style="display:block; font-size: 0.82rem; font-weight:700; margin-bottom: 8px;">Full Name</label>
+              <input type="text" class="form-control" style="padding-left:16px;" placeholder="John Doe" required>
+            </div>
+            <div style="margin-bottom: 20px;">
+              <label style="display:block; font-size: 0.82rem; font-weight:700; margin-bottom: 8px;">Email Address</label>
+              <input type="email" class="form-control" style="padding-left:16px;" placeholder="name@domain.com" required>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 20px;">
+            <label style="display:block; font-size: 0.82rem; font-weight:700; margin-bottom: 8px;">Subject</label>
+            <input type="text" class="form-control" style="padding-left:16px;" placeholder="General Safety Inquiry" required>
+          </div>
+
+          <div style="margin-bottom: 25px;">
+            <label style="display:block; font-size: 0.82rem; font-weight:700; margin-bottom: 8px;">Message Details</label>
+            <textarea class="form-control" style="padding-left:16px; min-height: 120px;" placeholder="Describe your questions here..." required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Message</button>
+        </form>
+      </div>
+
+      <!-- Info Pane with Map -->
+      <div style="display:flex; flex-direction:column; gap:30px;" data-aos="fade-left">
+        <div class="contact-card glass-card">
+          <h2 style="font-size: 1.4rem; font-weight:700; color:#0c1e36;">Help Desk</h2>
+          
+          <ul class="contact-info-list">
+            <li class="contact-info-item">
+              <div class="contact-icon-box"><i class="fa-solid fa-location-dot"></i></div>
+              <div>
+                <h4>Safety HQ Address</h4>
+                <p>SIH Desk, Ministry of Tourism, New Delhi, India</p>
+              </div>
+            </li>
+
+            <li class="contact-info-item">
+              <div class="contact-icon-box" style="background:rgba(255,107,53,0.1); color:var(--accent);"><i class="fa-solid fa-phone-volume"></i></div>
+              <div>
+                <h4>Emergency Helplines</h4>
+                <p>Support Hotline: +91 11 2584 9283<br>All-India Emergency Dial: <b>112</b></p>
+              </div>
+            </li>
+
+            <li class="contact-info-item">
+              <div class="contact-icon-box" style="background:rgba(40,167,69,0.1); color:#28a745;"><i class="fa-solid fa-envelope"></i></div>
+              <div>
+                <h4>Official Correspondence</h4>
+                <p>support@fearless360.gov.in</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Mini map of location -->
+        <div class="glass-card" style="padding:15px; border-radius: var(--border-radius);">
+          <div id="mini-contact-map" style="width:100%; height:200px; border-radius:10px;"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <h3><i class="fa-solid fa-shield-halved"></i> FearLess <span>360</span></h3>
+        <p>A leading tourist protection framework delivering automated coordinates monitoring, geofence protection gates, and emergency dispatch systems designed for Smart India Hackathon.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul class="footer-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Portal</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Create Passport</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Security Tools</h4>
+        <ul class="footer-menu">
+          <li><a href="dashboard.html">Tourist Panel</a></li>
+          <li><a href="sos.html">SOS Emergency Trigger</a></li>
+          <li><a href="map.html">Leaflet Trackers Map</a></li>
+          <li><a href="geofence.html">Geofencing Circle</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Contacts</h4>
+        <ul class="footer-contact-info">
+          <li><i class="fa-solid fa-location-dot"></i> SIH Hub - IIT Delhi, India</li>
+          <li><i class="fa-solid fa-phone"></i> +91 11 2584 9283</li>
+          <li><i class="fa-solid fa-envelope"></i> safety@fearless360.gov.in</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 FearLess Travel 360. Developed for Smart India Hackathon (SIH) safety guidelines. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <!-- Leaflet Map JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script>
+    AOS.init({ once: true });
+
+    // Initialize mini contact map (IIT Delhi coordinates context)
+    const map = L.map('mini-contact-map').setView([28.5457, 77.1928], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+    L.marker([28.5457, 77.1928]).addTo(map).bindPopup("<b>SIH Hub</b><br>IIT Delhi, India.").openPopup();
+  </script>
+  <!-- Main application script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

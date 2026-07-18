@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live GPS Map | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Leaflet Map CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css">
+  <!-- Global style sheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Dashboard Shell CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <style>
+    .map-filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .map-filter-btn {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+    .map-filter-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .map-filter-btn:hover:not(.active) {
+      background: #f1f3f5;
+      transform: translateY(-1px);
+    }
+    .map-filter-btn i {
+      font-size: 0.95rem;
+    }
+    .gps-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+    @media (max-width: 768px) {
+      .gps-stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Safety Guard script check -->
+  <script>
+    // Auto-login default mock tourist user if no active session exists (for easy local prototype preview)
+    if (!localStorage.getItem('sih_active_user_email')) {
+      localStorage.setItem('sih_active_user_email', 'tourist@example.com');
+    }
+  </script>
+
+  <div class="dashboard-wrapper">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <i class="fa-solid fa-shield-halved"></i> FearLess <span>360</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item"><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li class="sidebar-item"><a href="profile.html"><i class="fa-regular fa-user"></i> My Profile</a></li>
+        <li class="sidebar-item active"><a href="map.html"><i class="fa-solid fa-map-location-dot"></i> Live GPS Map</a></li>
+        <li class="sidebar-item"><a href="geofence.html"><i class="fa-solid fa-circle-nodes"></i> GeoFence Alert</a></li>
+        <li class="sidebar-item"><a href="sos.html" style="color:#ff4a70;"><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS</a></li>
+        <li class="sidebar-item"><a href="incidents.html"><i class="fa-solid fa-file-invoice"></i> File Incident</a></li>
+        <li class="sidebar-item"><a href="chatbot.html"><i class="fa-solid fa-comments"></i> AI Assistant</a></li>
+        <li class="sidebar-item"><a href="qr.html"><i class="fa-solid fa-qrcode"></i> Digital Passport</a></li>
+        <li class="sidebar-item"><a href="tourist.html"><i class="fa-solid fa-book-open"></i> Safety Tip Book</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-logout" onclick="event.preventDefault(); localStorage.removeItem('sih_active_user_email'); window.location.href='login.html';">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="dashboard-header">
+        <div class="header-title">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+          <h1>Interactive Safety Map</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="notification-bell" onclick="Swal.fire('Notifications', 'System is active and tracking your coordinates. No alerts.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge"></span>
+          </div>
+          
+          <a href="profile.html" class="user-profile-menu">
+            <div class="user-avatar-small">U</div>
+            <div class="user-info-text">
+              <span class="user-name-small">Tourist User</span>
+              <span class="user-role-small">Verified Safety Pass</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <div class="dashboard-content">
+        
+        <div class="content-card" data-aos="fade-up">
+          <div class="content-card-title">
+            <span>Filter Nearby Amenities</span>
+            <button class="btn btn-primary" style="padding:8px 20px; font-size:0.85rem;" id="btn-get-location"><i class="fa-solid fa-location-crosshairs"></i> Refresh Position</button>
+          </div>
+
+          <!-- Filters bar -->
+          <div class="map-filter-bar">
+            <button class="map-filter-btn active" data-type="all"><i class="fa-solid fa-list"></i> Show All</button>
+            <button class="map-filter-btn" data-type="police" style="border-left: 3px solid #FF6B35;"><i class="fa-solid fa-shield-halved"></i> Police Station</button>
+            <button class="map-filter-btn" data-type="hospital" style="border-left: 3px solid #28a745;"><i class="fa-solid fa-hospital"></i> Hospital</button>
+            <button class="map-filter-btn" data-type="hotel" style="border-left: 3px solid #ffc107;"><i class="fa-solid fa-hotel"></i> Safe Hotels</button>
+            <button class="map-filter-btn" data-type="attraction"><i class="fa-solid fa-map-pin"></i> Monuments</button>
+          </div>
+
+          <!-- Travel Search Bar -->
+          <div class="search-location-wrapper" style="display:flex; gap:10px; margin-top:15px; margin-bottom:12px;">
+            <input type="text" id="input-search-location" class="form-control" style="flex-grow:1; border-radius:8px; border:1px solid rgba(0,0,0,0.15); padding:10px 16px; outline:none; font-size:0.9rem;" placeholder="Search target city / country (e.g. Paris, Tokyo, Delhi)...">
+            <button class="btn btn-primary" id="btn-search-location" style="padding:10px 20px; font-weight:600; display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-plane-departure"></i> Travel</button>
+          </div>
+          
+          <!-- Tamil Nadu Quick Destinations -->
+          <div class="tn-quick-destinations" style="margin-bottom:15px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <span style="font-size:0.8rem; font-weight:600; color:var(--text-light); margin-right:5px;"><i class="fa-solid fa-map-location-dot"></i> Tamil Nadu Places:</span>
+            <button class="tn-dest-btn" onclick="quickTravel('Chennai, Tamil Nadu')" style="background:#fff; border:1px solid rgba(0,0,0,0.12); padding:5px 12px; border-radius:15px; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--primary); transition:all 0.2s;">Chennai</button>
+            <button class="tn-dest-btn" onclick="quickTravel('Ooty, Tamil Nadu')" style="background:#fff; border:1px solid rgba(0,0,0,0.12); padding:5px 12px; border-radius:15px; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--primary); transition:all 0.2s;">Ooty</button>
+            <button class="tn-dest-btn" onclick="quickTravel('Madurai, Tamil Nadu')" style="background:#fff; border:1px solid rgba(0,0,0,0.12); padding:5px 12px; border-radius:15px; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--primary); transition:all 0.2s;">Madurai</button>
+            <button class="tn-dest-btn" onclick="quickTravel('Coimbatore, Tamil Nadu')" style="background:#fff; border:1px solid rgba(0,0,0,0.12); padding:5px 12px; border-radius:15px; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--primary); transition:all 0.2s;">Coimbatore</button>
+            <button class="tn-dest-btn" onclick="quickTravel('Kanyakumari, Tamil Nadu')" style="background:#fff; border:1px solid rgba(0,0,0,0.12); padding:5px 12px; border-radius:15px; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--primary); transition:all 0.2s;">Kanyakumari</button>
+            <button class="tn-dest-btn" onclick="quickTravel('Rameswaram, Tamil Nadu')" style="background:#fff; border:1px solid rgba(0,0,0,0.12); padding:5px 12px; border-radius:15px; font-size:0.75rem; font-weight:600; cursor:pointer; color:var(--primary); transition:all 0.2s;">Rameswaram</button>
+          </div>
+
+          <!-- Full Map Holder Wrapper with Overlays -->
+          <div style="position: relative; margin-bottom: 15px;">
+            <!-- Map Overlay Controls -->
+            <div class="map-overlay-controls" style="position: absolute; top: 15px; left: 15px; z-index: 99; display: flex; gap: 10px; flex-wrap: wrap;">
+              <button class="btn btn-primary" id="btn-find-hospitals" style="background: #e63946; border: none; box-shadow: var(--shadow-md); padding: 8px 16px; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; border-radius: 4px; color: #fff; cursor: pointer;">
+                <i class="fa-solid fa-hospital-user"></i> Find Nearby Hospitals
+              </button>
+              <button class="btn btn-primary" id="btn-find-police" style="background: #1d3557; border: none; box-shadow: var(--shadow-md); padding: 8px 16px; font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 6px; border-radius: 4px; color: #fff; cursor: pointer;">
+                <i class="fa-solid fa-shield-halved"></i> Find Nearby Police
+              </button>
+            </div>
+            <div id="google-map" class="map-placeholder" style="height: 480px; border-radius:12px;"></div>
+          </div>
+
+          <!-- Route Finder Card -->
+          <div class="content-card" style="margin-top: 15px;">
+            <div class="content-card-title"><i class="fa-solid fa-route"></i> Travel Route Finder</div>
+            <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:15px;">Select any start location and destination in Tamil Nadu to draw the active driving route path between them.</p>
+            <div class="route-inputs-row" style="display:flex; gap:12px; flex-wrap:wrap;">
+              <div style="flex:1; min-width:200px;">
+                <label style="font-size:0.8rem; font-weight:600; color:var(--text-light); display:block; margin-bottom:5px;">From (Start Location)</label>
+                <select id="route-start-select" class="form-control" style="width:100%; padding:10px; border-radius:6px; border:1px solid rgba(0,0,0,0.15); height:40px; font-family:'Poppins';">
+                  <option value="current">Your Current Position</option>
+                  <option value="Chennai, Tamil Nadu">Chennai</option>
+                  <option value="Ooty, Tamil Nadu">Ooty</option>
+                  <option value="Madurai, Tamil Nadu">Madurai</option>
+                  <option value="Coimbatore, Tamil Nadu">Coimbatore</option>
+                  <option value="Kanyakumari, Tamil Nadu">Kanyakumari</option>
+                  <option value="Rameswaram, Tamil Nadu">Rameswaram</option>
+                  <option value="Trichy, Tamil Nadu">Trichy</option>
+                  <option value="Salem, Tamil Nadu">Salem</option>
+                </select>
+              </div>
+              <div style="flex:1; min-width:200px;">
+                <label style="font-size:0.8rem; font-weight:600; color:var(--text-light); display:block; margin-bottom:5px;">To (End Destination)</label>
+                <select id="route-end-select" class="form-control" style="width:100%; padding:10px; border-radius:6px; border:1px solid rgba(0,0,0,0.15); height:40px; font-family:'Poppins';">
+                  <option value="Chennai, Tamil Nadu">Chennai</option>
+                  <option value="Ooty, Tamil Nadu">Ooty</option>
+                  <option value="Madurai, Tamil Nadu" selected>Madurai</option>
+                  <option value="Coimbatore, Tamil Nadu">Coimbatore</option>
+                  <option value="Kanyakumari, Tamil Nadu">Kanyakumari</option>
+                  <option value="Rameswaram, Tamil Nadu">Rameswaram</option>
+                  <option value="Trichy, Tamil Nadu">Trichy</option>
+                  <option value="Salem, Tamil Nadu">Salem</option>
+                </select>
+              </div>
+              <div style="display:flex; align-items:flex-end;">
+                <button class="btn btn-primary" id="btn-draw-custom-route" style="padding:10px 24px; font-weight:600; height:40px;"><i class="fa-solid fa-route"></i> Draw Route</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live GPS info readings -->
+          <div class="gps-stats-grid">
+            <div class="profile-details-item">
+              <div class="profile-details-label">Latitude</div>
+              <div id="gps-lat" class="profile-details-val">18.92200</div>
+            </div>
+            
+            <div class="profile-details-item">
+              <div class="profile-details-label">Longitude</div>
+              <div id="gps-lng" class="profile-details-val">72.83470</div>
+            </div>
+
+            <div class="profile-details-item">
+              <div class="profile-details-label">Active Address Plot</div>
+              <div id="gps-address" class="profile-details-val">Gateway of India, Colaba, Mumbai</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <!-- Leaflet maps library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+  <script>
+    AOS.init({ once: true });
+  </script>
+  <!-- Global application JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <!-- Interactive map script -->
+  <script src="js/map.js"></script>
+</body>
+</html>
+
+
+

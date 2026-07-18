@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Global style sheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Dashboard Shell CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+  <!-- Auth Forms style for form inputs inside profile -->
+  <link rel="stylesheet" href="css/login.css">
+  <style>
+    .profile-grid-container {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 30px;
+    }
+    .profile-photo-box {
+      text-align: center;
+      padding: 30px 20px;
+    }
+    .profile-avatar-large {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 0 auto 20px;
+      border: 4px solid var(--secondary);
+      box-shadow: var(--shadow-md);
+      background-size: cover;
+      background-position: center;
+    }
+    .profile-details-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .profile-details-item {
+      padding: 14px 18px;
+      background: var(--background);
+      border-radius: 10px;
+      border: 1px solid rgba(0,0,0,0.02);
+    }
+    .profile-details-label {
+      font-size: 0.72rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .profile-details-val {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #0c1e36;
+    }
+    @media (max-width: 768px) {
+      .profile-grid-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Safety Guard script check -->
+  <script>
+    // Auto-login default mock tourist user if no active session exists (for easy local prototype preview)
+    if (!localStorage.getItem('sih_active_user_email')) {
+      localStorage.setItem('sih_active_user_email', 'tourist@example.com');
+    }
+  </script>
+
+  <div class="dashboard-wrapper">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <i class="fa-solid fa-shield-halved"></i> FearLess <span>360</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item"><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li class="sidebar-item active"><a href="profile.html"><i class="fa-regular fa-user"></i> My Profile</a></li>
+        <li class="sidebar-item"><a href="map.html"><i class="fa-solid fa-map-location-dot"></i> Live GPS Map</a></li>
+        <li class="sidebar-item"><a href="geofence.html"><i class="fa-solid fa-circle-nodes"></i> GeoFence Alert</a></li>
+        <li class="sidebar-item"><a href="sos.html" style="color:#ff4a70;"><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS</a></li>
+        <li class="sidebar-item"><a href="incidents.html"><i class="fa-solid fa-file-invoice"></i> File Incident</a></li>
+        <li class="sidebar-item"><a href="chatbot.html"><i class="fa-solid fa-comments"></i> AI Assistant</a></li>
+        <li class="sidebar-item"><a href="qr.html"><i class="fa-solid fa-qrcode"></i> Digital Passport</a></li>
+        <li class="sidebar-item"><a href="tourist.html"><i class="fa-solid fa-book-open"></i> Safety Tip Book</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-logout" onclick="event.preventDefault(); localStorage.removeItem('sih_active_user_email'); window.location.href='login.html';">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="dashboard-header">
+        <div class="header-title">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+          <h1>My Profile Settings</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="notification-bell" onclick="Swal.fire('Notifications', 'System is active and tracking your coordinates. No alerts.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge"></span>
+          </div>
+          
+          <a href="profile.html" class="user-profile-menu">
+            <div class="user-avatar-small">U</div>
+            <div class="user-info-text">
+              <span class="user-name-small">Tourist User</span>
+              <span class="user-role-small">Verified Safety Pass</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <div class="dashboard-content">
+        
+        <div class="profile-grid-container">
+          
+          <!-- Profile Card Box -->
+          <div class="content-card profile-photo-box" data-aos="fade-right">
+            <div id="prof-avatar-box" class="profile-avatar-large">U</div>
+            <h3 id="prof-display-name" style="font-size:1.25rem; font-weight:700; color:#0c1e36;">Tourist Name</h3>
+            <p id="prof-display-email" style="color:var(--text-light); font-size:0.85rem; margin-bottom:25px;">email@domain.com</p>
+            
+            <button class="btn btn-primary" style="width:100%;" id="btn-toggle-edit"><i class="fa-regular fa-pen-to-square"></i> Edit Details</button>
+          </div>
+
+          <!-- Profile Details Container -->
+          <div class="content-card" data-aos="fade-left">
+            
+            <!-- View Profile Mode -->
+            <div id="view-profile-mode">
+              <div class="content-card-title">Passport Metadata</div>
+              
+              <ul class="profile-details-list">
+                <li class="profile-details-item">
+                  <div class="profile-details-label">Full Name</div>
+                  <div id="p-name" class="profile-details-val">-</div>
+                </li>
+                <li class="profile-details-item">
+                  <div class="profile-details-label">Email Address</div>
+                  <div id="p-email" class="profile-details-val">-</div>
+                </li>
+                <li class="profile-details-item">
+                  <div class="profile-details-label">Phone Number</div>
+                  <div id="p-phone" class="profile-details-val">-</div>
+                </li>
+                <li class="profile-details-item">
+                  <div class="profile-details-label">Emergency Helpline Contact</div>
+                  <div id="p-emergency" class="profile-details-val">-</div>
+                </li>
+                <li class="profile-details-item">
+                  <div class="profile-details-label">Home Address</div>
+                  <div id="p-address" class="profile-details-val">-</div>
+                </li>
+                <li class="profile-details-item">
+                  <div class="profile-details-label">Blood Group</div>
+                  <div id="p-blood" class="profile-details-val">O+</div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Edit Profile Mode (Hidden Initially) -->
+            <div id="edit-profile-mode" style="display:none;">
+              <div class="content-card-title">Modify Passport Details</div>
+              
+              <form id="edit-profile-form">
+                <div class="form-group">
+                  <label class="form-label">Full Name</label>
+                  <div class="input-wrapper">
+                    <input type="text" id="ep-name" class="form-control" required style="padding-left:16px;">
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <div class="input-wrapper">
+                      <input type="text" id="ep-phone" class="form-control" required style="padding-left:16px;">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Emergency Helpline Contact</label>
+                    <div class="input-wrapper">
+                      <input type="text" id="ep-emergency" class="form-control" required style="padding-left:16px;">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Home Address</label>
+                  <div class="input-wrapper">
+                    <textarea id="ep-address" class="form-control" required style="padding-left:16px; min-height:80px;"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Blood Group</label>
+                  <div class="input-wrapper">
+                    <select id="ep-blood" class="form-control" style="padding-left:16px;">
+                      <option value="O+">O+ Positive</option>
+                      <option value="O-">O- Negative</option>
+                      <option value="A+">A+ Positive</option>
+                      <option value="A-">A- Negative</option>
+                      <option value="B+">B+ Positive</option>
+                      <option value="B-">B- Negative</option>
+                      <option value="AB+">AB+ Positive</option>
+                      <option value="AB-">AB- Negative</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div style="display:flex; gap:16px; margin-top:25px;">
+                  <button type="button" class="btn btn-outline" style="width:100%;" id="btn-cancel-edit">Cancel</button>
+                  <button type="submit" class="btn btn-primary" style="width:100%;">Save Changes</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+
+    // Local profile page loader logic (Self Contained)
+    document.addEventListener('DOMContentLoaded', () => {
+      const activeEmail = localStorage.getItem('sih_active_user_email');
+      const users = JSON.parse(localStorage.getItem('sih_users') || '[]');
+      let user = users.find(u => u.email === activeEmail);
+
+      const viewMode = document.getElementById('view-profile-mode');
+      const editMode = document.getElementById('edit-profile-mode');
+      const btnToggleEdit = document.getElementById('btn-toggle-edit');
+      const btnCancelEdit = document.getElementById('btn-cancel-edit');
+      const editForm = document.getElementById('edit-profile-form');
+
+      if (!user) return;
+
+      loadProfileDetails();
+
+      function loadProfileDetails() {
+        // Set Large Avatar details
+        const avBox = document.getElementById('prof-avatar-box');
+        avBox.textContent = user.name.charAt(0).toUpperCase();
+        if (user.avatar) {
+          avBox.style.backgroundImage = `url(${user.avatar})`;
+          avBox.textContent = '';
+        }
+
+        // Set Display Headers
+        document.getElementById('prof-display-name').textContent = user.name;
+        document.getElementById('prof-display-email').textContent = user.email;
+
+        // Set Details values
+        document.getElementById('p-name').textContent = user.name;
+        document.getElementById('p-email').textContent = user.email;
+        document.getElementById('p-phone').textContent = user.phone;
+        document.getElementById('p-emergency').textContent = user.emergencyContact;
+        document.getElementById('p-address').textContent = user.address;
+        document.getElementById('p-blood').textContent = user.bloodGroup || "O+";
+      }
+
+      // Toggle edit button click
+      btnToggleEdit.addEventListener('click', () => {
+        // Pre-fill inputs
+        document.getElementById('ep-name').value = user.name;
+        document.getElementById('ep-phone').value = user.phone;
+        document.getElementById('ep-emergency').value = user.emergencyContact;
+        document.getElementById('ep-address').value = user.address;
+        document.getElementById('ep-blood').value = user.bloodGroup || "O+";
+
+        viewMode.style.display = 'none';
+        editMode.style.display = 'block';
+        btnToggleEdit.style.display = 'none';
+      });
+
+      // Cancel button click
+      btnCancelEdit.addEventListener('click', () => {
+        editMode.style.display = 'none';
+        viewMode.style.display = 'block';
+        btnToggleEdit.style.display = 'inline-flex';
+      });
+
+      // Submit changes
+      editForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('ep-name').value.trim();
+        const phone = document.getElementById('ep-phone').value.trim();
+        const emergency = document.getElementById('ep-emergency').value.trim();
+        const address = document.getElementById('ep-address').value.trim();
+        const blood = document.getElementById('ep-blood').value;
+
+        if (!name || !phone || !emergency || !address) {
+          Swal.fire('Error', 'Please fill in all details.', 'error');
+          return;
+        }
+
+        // Update local database
+        const usersList = JSON.parse(localStorage.getItem('sih_users') || '[]');
+        const idx = usersList.findIndex(u => u.email === user.email);
+
+        if (idx !== -1) {
+          usersList[idx].name = name;
+          usersList[idx].phone = phone;
+          usersList[idx].emergencyContact = emergency;
+          usersList[idx].address = address;
+          usersList[idx].bloodGroup = blood;
+
+          localStorage.setItem('sih_users', JSON.stringify(usersList));
+          user = usersList[idx];
+
+          // Reload display
+          loadProfileDetails();
+          loadGlobalUserDetails(); // Updates the top bar header
+
+          // Switch screen modes back
+          editMode.style.display = 'none';
+          viewMode.style.display = 'block';
+          btnToggleEdit.style.display = 'inline-flex';
+
+          Swal.fire('Success', 'Tourist passport details updated successfully.', 'success');
+        }
+      });
+    });
+  </script>
+  <!-- Global application JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

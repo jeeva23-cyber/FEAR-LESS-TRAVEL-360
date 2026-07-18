@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Portal | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Global & Landing Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sticky Glassmorphic Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved"></i> FearLess <span>Travel 360</span>
+      </a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="index.html#services" class="nav-link">Services</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        
+        <li class="nav-auth-mobile">
+          <a href="login.html" class="btn btn-outline">Login</a>
+          <a href="register.html" class="btn btn-primary">Register</a>
+        </li>
+      </ul>
+
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="register.html" class="btn btn-primary">Register</a>
+      </div>
+
+      <button class="hamburger" id="hamburger-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Page Banner -->
+  <section class="hero-section" style="padding: 140px 0 50px; min-height: auto;">
+    <div class="container">
+      <div class="section-header" style="margin-bottom:0;" data-aos="fade-up">
+        <h1 style="font-size: 2.8rem;">About <span>FearLess 360</span></h1>
+        <p>Learn about our mission, technology stack, and the Smart India Hackathon problem statements we address.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Vision Objectives Content -->
+  <section class="features-section" style="background:#fff; padding:60px 0;">
+    <div class="container">
+      <div class="features-grid">
+        <div class="feature-card glass-card" data-aos="fade-up" data-aos-delay="100" style="background:var(--background);">
+          <div class="feature-header">
+            <div class="feature-icon-box" style="background:rgba(13,110,253,0.1); color:var(--primary);"><i class="fa-solid fa-crosshairs"></i></div>
+            <h3>Our Mission</h3>
+          </div>
+          <p>Deploying sub-second emergency response and safety monitoring platforms that empower domestic and international tourists to travel freely across Indian sites without security distress.</p>
+        </div>
+
+        <div class="feature-card glass-card" data-aos="fade-up" data-aos-delay="200" style="background:var(--background);">
+          <div class="feature-header">
+            <div class="feature-icon-box" style="background:rgba(255,107,53,0.1); color:var(--accent);"><i class="fa-solid fa-eye"></i></div>
+            <h3>Our Vision</h3>
+          </div>
+          <p>Enabling a highly secure, smart travel ecosystem in India by unifying local law enforcement units, hospitals, and dynamic GPS safety geofences within a single software dashboard.</p>
+        </div>
+
+        <div class="feature-card glass-card" data-aos="fade-up" data-aos-delay="300" style="background:var(--background);">
+          <div class="feature-header">
+            <div class="feature-icon-box" style="background:rgba(40,167,69,0.1); color:#28a745;"><i class="fa-solid fa-list-check"></i></div>
+            <h3>Key Objectives</h3>
+          </div>
+          <p>Create digital verified identity passes, build client-side geofencing zones, synthesize siren dispatch, and support incident logging tools optimized for mobile and desktop screens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Statement Section -->
+  <section class="testimonials-section" style="padding: 60px 0;">
+    <div class="container">
+      <div class="glass-card" style="padding: 40px; border-radius: var(--border-radius); background: #fff;" data-aos="fade-up">
+        <div class="feature-header" style="margin-bottom:20px;">
+          <div class="feature-icon-box" style="background:rgba(220,53,69,0.1); color:#dc3545;"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <h2 style="font-size: 1.5rem; font-weight:700;">Smart India Hackathon Problem Statement</h2>
+        </div>
+        <p style="color:var(--text-light); margin-bottom: 20px; font-size: 0.95rem;">
+          <b>Title:</b> AI-Powered Tourist Safety, Alerting, and Incident Response Framework.<br>
+          <b>Context:</b> Tourists traveling to remote locations or crowded monuments frequently struggle to access local police help, emergency medical assets, or secure route warnings in real-time. Traditional safety apps suffer from high latency, complex forms, lack of location persistence, and offline display failure.
+        </p>
+        <p style="color:var(--text-light); font-size: 0.95rem;">
+          <b>FearLess Travel 360 Solution:</b> By combining responsive front-end frameworks with offline database backups (`localStorage`), client-side geofencing perimeters (`Leaflet`), and browser Audio Context sirens (`Web Audio`), we offer an immediate, low-latency safeguard interface that is completely suitable for SIH evaluations and deployable across government safety infrastructure.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack Grid -->
+  <section class="services-section" style="padding: 60px 0; background: var(--secondary);">
+    <div class="container">
+      <div class="section-header" data-aos="fade-up">
+        <h2>Technology Infrastructure</h2>
+        <p>A breakdown of premium developer frameworks and APIs unifying the safety components.</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card glass-card" style="padding: 30px;" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-icon"><i class="fa-solid fa-robot"></i></div>
+          <h3>AI Engine (Mocked NLP)</h3>
+          <p>Local parser engine resolving query intentions to provide instant contact lists and nearest safety guidelines.</p>
+        </div>
+
+        <div class="service-card glass-card" style="padding: 30px;" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-icon" style="background:rgba(255,107,53,0.1); color:var(--accent);"><i class="fa-solid fa-map-location-dot"></i></div>
+          <h3>Leaflet & OpenStreetMap</h3>
+          <p>Bypasses paid Google Map API barriers to render smooth tile loaders, vector markers, and circle geofences.</p>
+        </div>
+
+        <div class="service-card glass-card" style="padding: 30px;" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-icon" style="background:rgba(40,167,69,0.1); color:#28a745;"><i class="fa-solid fa-qrcode"></i></div>
+          <h3>QR Code Passport</h3>
+          <p>Dynamic Canvas rendering script providing downloadable safety cards containing emergency data.</p>
+        </div>
+
+        <div class="service-card glass-card" style="padding: 30px;" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-icon" style="background:rgba(23,162,184,0.1); color:#17a2b8;"><i class="fa-solid fa-database"></i></div>
+          <h3>Local Storage</h3>
+          <p>Client-side simulation of remote database, managing credentials profiles, incident logs, and SOS coordinates.</p>
+        </div>
+
+        <div class="service-card glass-card" style="padding: 30px;" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-icon"><i class="fa-solid fa-cubes"></i></div>
+          <h3>Blockchain ready</h3>
+          <p>Data models pre-formatted into hashes, ready to lock digital user passports onto Ethereum blockchain nodes.</p>
+        </div>
+
+        <div class="service-card glass-card" style="padding: 30px;" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-icon" style="background:rgba(220,53,69,0.1); color:#dc3545;"><i class="fa-solid fa-chart-line"></i></div>
+          <h3>Chart.js Analytics</h3>
+          <p>Admin data visualizer providing linear incident trends, count logs, and reported metrics charts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-about">
+        <h3><i class="fa-solid fa-shield-halved"></i> FearLess <span>360</span></h3>
+        <p>A leading tourist protection framework delivering automated coordinates monitoring, geofence protection gates, and emergency dispatch systems designed for Smart India Hackathon.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul class="footer-menu">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Portal</a></li>
+          <li><a href="login.html">Login</a></li>
+          <li><a href="register.html">Create Passport</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Security Tools</h4>
+        <ul class="footer-menu">
+          <li><a href="dashboard.html">Tourist Panel</a></li>
+          <li><a href="sos.html">SOS Emergency Trigger</a></li>
+          <li><a href="map.html">Leaflet Trackers Map</a></li>
+          <li><a href="geofence.html">Geofencing Circle</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Contacts</h4>
+        <ul class="footer-contact-info">
+          <li><i class="fa-solid fa-location-dot"></i> SIH Hub - IIT Delhi, India</li>
+          <li><i class="fa-solid fa-phone"></i> +91 11 2584 9283</li>
+          <li><i class="fa-solid fa-envelope"></i> safety@fearless360.gov.in</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 FearLess Travel 360. Developed for Smart India Hackathon (SIH) safety guidelines. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      once: true,
+      duration: 800
+    });
+  </script>
+  <!-- Global application JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
+

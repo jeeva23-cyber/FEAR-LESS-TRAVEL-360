@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency SOS | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Global style sheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Dashboard Shell CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+  <!-- Safety Guard script check -->
+  <script>
+    // Auto-login default mock tourist user if no active session exists (for easy local prototype preview)
+    if (!localStorage.getItem('sih_active_user_email')) {
+      localStorage.setItem('sih_active_user_email', 'tourist@example.com');
+    }
+  </script>
+
+  <div class="dashboard-wrapper">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <i class="fa-solid fa-shield-halved"></i> FearLess <span>360</span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li class="sidebar-item"><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+        <li class="sidebar-item"><a href="profile.html"><i class="fa-regular fa-user"></i> My Profile</a></li>
+        <li class="sidebar-item"><a href="map.html"><i class="fa-solid fa-map-location-dot"></i> Live GPS Map</a></li>
+        <li class="sidebar-item"><a href="geofence.html"><i class="fa-solid fa-circle-nodes"></i> GeoFence Alert</a></li>
+        <li class="sidebar-item active"><a href="sos.html" style="color:#ff4a70;"><i class="fa-solid fa-triangle-exclamation"></i> Emergency SOS</a></li>
+        <li class="sidebar-item"><a href="incidents.html"><i class="fa-solid fa-file-invoice"></i> File Incident</a></li>
+        <li class="sidebar-item"><a href="chatbot.html"><i class="fa-solid fa-comments"></i> AI Assistant</a></li>
+        <li class="sidebar-item"><a href="qr.html"><i class="fa-solid fa-qrcode"></i> Digital Passport</a></li>
+        <li class="sidebar-item"><a href="tourist.html"><i class="fa-solid fa-book-open"></i> Safety Tip Book</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <a href="#" class="sidebar-logout" onclick="event.preventDefault(); localStorage.removeItem('sih_active_user_email'); window.location.href='login.html';">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="main-content">
+      <!-- Topbar Header -->
+      <header class="dashboard-header">
+        <div class="header-title">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn"><i class="fa-solid fa-bars"></i></button>
+          <h1 style="color:#dc3545;">Emergency SOS Desk</h1>
+        </div>
+
+        <div class="header-actions">
+          <div class="notification-bell" onclick="Swal.fire('Notifications', 'System is active and tracking your coordinates. No alerts.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-badge"></span>
+          </div>
+          
+          <a href="profile.html" class="user-profile-menu">
+            <div class="user-avatar-small">U</div>
+            <div class="user-info-text">
+              <span class="user-name-small">Tourist User</span>
+              <span class="user-role-small">Verified Safety Pass</span>
+            </div>
+          </a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <div class="dashboard-content">
+        
+        <div class="content-card sos-card-wrapper" data-aos="zoom-in">
+          <h2 style="font-size: 1.4rem; font-weight:700; color:#0c1e36; margin-bottom:10px;">Are you in immediate danger?</h2>
+          <p style="color:var(--text-light); font-size:0.9rem; margin-bottom:30px;">Press the emergency button below. The system will sound a local buzzer and dispatch coordinates to authorities.</p>
+
+          <!-- Large Red Pulse SOS Button -->
+          <button id="btn-trigger-sos" class="sos-trigger-btn">SOS</button>
+
+          <!-- Silence alarm option -->
+          <button id="btn-stop-alarm" class="btn btn-outline" style="display:none; margin: 30px auto 0; border-color:#dc3545; color:#dc3545;">
+            <i class="fa-solid fa-volume-xmark"></i> Silence Siren Alarm
+          </button>
+
+          <!-- Active logs list -->
+          <div id="emergency-logs" style="margin-top: 30px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto;"></div>
+
+          <!-- Dynamic readings coordinate box list -->
+          <div class="sos-info-list">
+            <div class="sos-info-box">
+              <h4>Active GPS Coords</h4>
+              <p>18.9220, 72.8347</p>
+            </div>
+
+            <div class="sos-info-box" style="border-left: 3px solid #FF6B35;">
+              <h4>Emergency Contact</h4>
+              <p id="sos-user-contact">+91 99999 88888</p>
+            </div>
+
+            <div class="sos-info-box" style="border-left: 3px solid #28a745;">
+              <h4>Police Help Desk</h4>
+              <p>112 / 100</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+
+    // Set emergency phone number dynamically on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const activeEmail = localStorage.getItem('sih_active_user_email');
+      const users = JSON.parse(localStorage.getItem('sih_users') || '[]');
+      const user = users.find(u => u.email === activeEmail);
+      if (user && user.emergencyContact) {
+        document.getElementById('sos-user-contact').textContent = user.emergencyContact;
+      }
+    });
+  </script>
+  <!-- Global application JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <!-- SOS alerts script module -->
+  <script src="js/sos.js"></script>
+</body>
+</html>
+

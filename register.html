@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | FearLess Travel 360</title>
+  <!-- Google Fonts Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- AOS Animation Library CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <!-- Global & Landing Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Auth Forms Custom Style -->
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <i class="fa-solid fa-shield-halved"></i> FearLess <span>Travel 360</span>
+      </a>
+      
+      <ul class="nav-menu" id="nav-menu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="index.html#services" class="nav-link">Services</a></li>
+        <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="contact.html" class="nav-link">Contact</a></li>
+        
+        <li class="nav-auth-mobile">
+          <a href="login.html" class="btn btn-outline">Login</a>
+          <a href="register.html" class="btn btn-primary active">Register</a>
+        </li>
+      </ul>
+
+      <div class="nav-auth">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="register.html" class="btn btn-primary active">Register</a>
+      </div>
+
+      <button class="hamburger" id="hamburger-btn">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Register Form Wrapper -->
+  <main class="auth-wrapper" style="padding-top:130px;">
+    <div class="auth-container" data-aos="zoom-in" data-aos-duration="600">
+      <div class="auth-card glass-card">
+        <div class="auth-header">
+          <h2>Create Safety Passport</h2>
+          <p>Register your tourist profile details with local medical metadata</p>
+        </div>
+
+        <form id="register-form" novalidate>
+          
+          <!-- Full Name -->
+          <div class="form-group">
+            <label class="form-label" for="reg-name">Full Name</label>
+            <div class="input-wrapper">
+              <input type="text" id="reg-name" class="form-control" placeholder="Aarav Sharma" required>
+              <span class="input-icon"><i class="fa-regular fa-user"></i></span>
+            </div>
+            <span class="error-message"></span>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group">
+            <label class="form-label" for="reg-email">Email Address</label>
+            <div class="input-wrapper">
+              <input type="email" id="reg-email" class="form-control" placeholder="aarav@domain.com" required>
+              <span class="input-icon"><i class="fa-regular fa-envelope"></i></span>
+            </div>
+            <span class="error-message"></span>
+          </div>
+
+          <!-- Row: Phone & Emergency Contact -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-phone">Phone Number</label>
+              <div class="input-wrapper">
+                <input type="text" id="reg-phone" class="form-control" placeholder="+91 98765 43210" required>
+                <span class="input-icon"><i class="fa-solid fa-phone"></i></span>
+              </div>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-emergency">Emergency Help Phone</label>
+              <div class="input-wrapper">
+                <input type="text" id="reg-emergency" class="form-control" placeholder="+91 99999 88888" required>
+                <span class="input-icon"><i class="fa-solid fa-phone-volume"></i></span>
+              </div>
+              <span class="error-message"></span>
+            </div>
+          </div>
+
+          <!-- Address -->
+          <div class="form-group">
+            <label class="form-label" for="reg-address">Permanent Address</label>
+            <div class="input-wrapper">
+              <textarea id="reg-address" class="form-control" placeholder="123 Park Street, Mumbai, Maharashtra" required></textarea>
+              <span class="input-icon" style="top:15px; transform:none;"><i class="fa-solid fa-house-chimney"></i></span>
+            </div>
+            <span class="error-message"></span>
+          </div>
+
+          <!-- Blood Group -->
+          <div class="form-group">
+            <label class="form-label" for="reg-blood">Blood Group</label>
+            <div class="input-wrapper">
+              <select id="reg-blood" class="form-control" style="appearance:none; -webkit-appearance:none;">
+                <option value="O+">O+ Positive</option>
+                <option value="O-">O- Negative</option>
+                <option value="A+">A+ Positive</option>
+                <option value="A-">A- Negative</option>
+                <option value="B+">B+ Positive</option>
+                <option value="B-">B- Negative</option>
+                <option value="AB+">AB+ Positive</option>
+                <option value="AB-">AB- Negative</option>
+              </select>
+              <span class="input-icon"><i class="fa-solid fa-droplet"></i></span>
+            </div>
+          </div>
+
+          <!-- Avatar Image Picker -->
+          <div class="form-group">
+            <label class="form-label">Profile Avatar Image</label>
+            <div class="file-upload-wrapper" id="file-upload-wrapper">
+              <input type="file" id="reg-avatar" accept="image/*">
+              <div class="file-upload-content">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p>Drag & drop or <span>Browse files</span> (Max 2MB)</p>
+              </div>
+            </div>
+            <div class="preview-container">
+              <img id="image-preview" class="image-preview" src="#" alt="Avatar Preview">
+            </div>
+          </div>
+
+          <!-- Row: Password & Confirm -->
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="reg-password">Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="reg-password" class="form-control" placeholder="••••••••" required>
+                <span class="input-icon"><i class="fa-solid fa-lock"></i></span>
+              </div>
+              <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="reg-confirm-password" class="form-control" placeholder="••••••••" required>
+                <span class="input-icon"><i class="fa-solid fa-shield-check"></i></span>
+              </div>
+              <span class="error-message"></span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+
+        <div class="auth-footer">
+          Already registered? <a href="login.html">Sign In Here</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- AOS animation JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ once: true });
+  </script>
+  <!-- Main application script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+  <!-- Register script -->
+  <script src="js/register.js"></script>
+</body>
+</html>
+
